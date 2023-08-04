@@ -25,6 +25,8 @@ def canUnlockAll(boxes):
     """
     n = len(boxes)
     visited = [False] * n
+    visited[0] = True  # First box (box 0) is unlocked.
+
     stack = [0]  # Start with the first box (box 0).
 
     while stack:
