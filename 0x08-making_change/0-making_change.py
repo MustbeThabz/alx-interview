@@ -1,23 +1,33 @@
 #!/usr/bin/python3
+"""
+Coin Change Algorithm
+"""
+
 
 def makeChange(coins, total):
+    """Calculate the fewest number needed to meet,
+    needed to meet a given total amount.
+    Args:
+        coins ([list]): A list of coin values available.
+        total ([number]): The target amount
+    Return: The fewest number of coins needed to reach the total,
+    or -1 if not possible.
+    """
     if total <= 0:
         return 0
 
-    # Create a list to store the minimum number of coins needed to make each value from 0 to total
-    dp = [float('inf')] * (total + 1)
+    coins.sort(reverse=True)
 
-    # Initialize dp[0] as 0 since we need 0 coins to make a total of 0
-    dp[0] = 0
+    i, ncoins = (0, 0)
+    cpy_total = total
+    len_coins = len(coins)
 
-    # Iterate through each coin and update dp values
-    for coin in coins:
-        for value in range(coin, total + 1):
-            dp[value] = min(dp[value], dp[value - coin] + 1)
+    while(i < len_coins and cpy_total > 0):
+        if (cpy_total - coins[i]) >= 0:
+            cpy_total -= coins[i]
+            ncoins += 1
+        else:
+            i += 1
 
-    # If dp[total] remains unchanged, it means we cannot make the total with the given coins
-    if dp[total] == float('inf'):
-        return -1
-
-    return dp[total]
-
+    check = cpy_total > 0 and ncoins > 0
+    return -1 if check or ncoins == 0 else ncoins
